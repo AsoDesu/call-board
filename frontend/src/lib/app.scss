@@ -1,0 +1,49 @@
+@use "./vars.scss";
+
+.mobile-container {
+    width: 100%;
+    height: 100vh;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.box {
+    background-color: vars.$box-background;
+    border-radius: vars.$border-radius;
+    padding: 5px;
+}
+
+/* divider css borrowed (with some alterations) from https://daisyui.com/ */
+.divider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.divider:not(:empty) {
+    gap: 15px;
+}
+
+.divider:before,
+.divider:after {
+    height: 2px;
+    width: 100%;
+    flex-grow: 1;
+    content: "";
+    background-color: rgba(255, 255, 255, 0.15);
+}
+/* divider end */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    background-color: hsl(316, 31%, 25%);
+}
+
+* {
+    will-change: unset !important;
+}
