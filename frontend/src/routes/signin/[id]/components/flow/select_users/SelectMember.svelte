@@ -1,14 +1,10 @@
 <script lang="ts">
+    import ProductionMemberDetail from "$lib/components/production_member/ProductionMemberDetail.svelte";
+    import ProductionMemberIcon from "$lib/components/production_member/ProductionMemberIcon.svelte";
     import Icon from "@iconify/svelte";
     import Ripple from "@smui/ripple";
     export let person: ProductionMember;
     export let onSelect: (person: ProductionMember) => void = (person) => {};
-
-    let icons = {
-        crew: "material-symbols:engineering-outline-rounded",
-
-        $else: "material-symbols:person-outline-rounded"
-    } as { [key: string]: string };
 
     function onClick() {
         onSelect(person);
@@ -27,21 +23,12 @@
     aria-disabled="false"
     tabindex="0"
 >
-    {#if person.icon}
-        <div class="icon icon-img" style={`background-image: url("${person.icon}")`}></div>
-    {:else}
-        <div class="icon">
-            <Icon icon={icons[person.department.toLowerCase()] ?? icons.$else} height={48} />
-        </div>
-    {/if}
-    <div class="detail">
-        <span class="name">{person.name}</span>
-        <span class="desc">{person.department} • {person.role}</span>
-    </div>
+    <ProductionMemberIcon member={person} />
+    <ProductionMemberDetail member={person} />
 </div>
 
 <style lang="scss">
-    .member {
+    .member :global {
         display: flex;
         gap: 10px;
         align-items: center;
@@ -52,29 +39,6 @@
         .icon {
             height: 48px;
             width: 48px;
-        }
-
-        .icon-img {
-            border-radius: 100%;
-            background-size: cover;
-        }
-
-        .detail {
-            display: flex;
-            flex-direction: column;
-            line-height: 100%;
-            gap: 2.5px;
-
-            .name {
-                font-size: 18px;
-                font-weight: 500;
-            }
-            .desc {
-                color: #cccccc;
-                font-size: 14px;
-                font-weight: 300;
-                text-overflow: ellipsis;
-            }
         }
     }
 </style>

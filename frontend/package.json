@@ -16,6 +16,7 @@
 	"devDependencies": {
 		"@iconify/svelte": "^4.2.0",
 		"@smui/button": "^8.0.0-beta.3",
+		"@smui/circular-progress": "^8.0.0-beta.3",
 		"@smui/ripple": "^8.0.0-beta.3",
 		"@smui/select": "^8.0.0-beta.3",
 		"@smui/textfield": "^8.0.0-beta.3",

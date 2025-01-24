@@ -6,10 +6,17 @@
     import HelperText from "@smui/textfield/helper-text";
     import SelectMember from "./SelectMember.svelte";
     import { compareName, containsIgnoreCase, seperateArray } from "$lib/utils";
-    import { department_selected } from "$lib/state/flow_state";
+    import { department_selected, selected_member } from "$lib/state/flow_state";
     import { production_departments, production_members } from "$lib/state/production_state";
+    import { previous_show_sign_in } from "$lib/state/sign_in_state";
 
     let { search = $bindable(""), advanceFlow, ...props } = $props();
+
+    let lastSelected = $derived.by(() => {
+        let memberId = $previous_show_sign_in?.member_id;
+        if (memberId == null) return null;
+        return $production_members.find((member) => member.id == memberId);
+    });
 
     let sortedHumans = $derived.by(() => {
         let members = Array.of(...$production_members);
@@ -39,6 +46,7 @@
         });
     }
     function onSelect(person: ProductionMember) {
+        $selected_member = person;
         advanceFlow();
     }
 </script>
@@ -60,10 +68,10 @@
     <div class="box humans-container">
         <div class="humans">
             <!-- TODO: last selected -->
-            {#if search == ""}
+            {#if search == "" && lastSelected != null}
                 <div class="divider">Last Selected</div>
                 <div class="last-selected">
-                    <SelectMember person={$production_members[0]} {onSelect}></SelectMember>
+                    <SelectMember person={lastSelected} {onSelect}></SelectMember>
                 </div>
                 <div class="divider"></div>
             {/if}

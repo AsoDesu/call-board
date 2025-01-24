@@ -21,3 +21,9 @@ export function seperateArray<T>(array: T[], filter: (it: T) => boolean): T[][] 
 export function containsIgnoreCase(a: string, b: string) {
     return a.toLowerCase().includes(b.toLowerCase());
 }
+
+export function wait(millis: number): Promise<void> {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), millis);
+    });
+}
