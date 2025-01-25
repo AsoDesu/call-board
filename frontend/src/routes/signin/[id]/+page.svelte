@@ -7,31 +7,41 @@
     import { fly } from "svelte/transition";
     import ActionItem from "./components/flow/ActionItem.svelte";
     import SignInFlow from "./components/flow/SignInFlow.svelte";
+    import { production_info, show_info } from "$lib/state/production_state";
+    import { api } from "$lib/api/api";
+    import type { PageProps } from "./$types";
+    import { flow_action } from "$lib/state/flow_state";
+    import { doAsync } from "$lib/utils";
+    import LoadingFlowItem from "./components/flow/LoadingFlowItem.svelte";
+    import { Icons, preloadIcons } from "$lib/icons";
 
-    let production: Production = {
-        name: "Production Name",
-        company: "Theatre Company",
-        fields: [
-            { type: "location", content: "Venue Name" },
-            { type: "date", content: "23rd December 2025 • 3pm" }
-        ]
-    };
+    let { data }: PageProps = $props();
+    let showFields = $derived.by(() => $flow_action == "signin");
 
-    let action: string;
-    $: showFields = action == "signin";
+    let loadPromise = doAsync(async () => {
+        await preloadIcons();
+        $show_info = await api.getShow(data.show_id);
+        $production_info = await api.getProduction($show_info.production_id);
+    });
 </script>
 
 <div class="mobile-container sign-in" style="--hue: 316">
-    <header class="header">
-        <Icon icon="material-symbols:done-all-rounded" />
-    </header>
+    {#await loadPromise}
+        <LoadingFlowItem />
+    {:then data}
+        <header class="header">
+            <Icon icon={Icons.doneAll} />
+        </header>
 
-    <ProductionDetail {production} bind:showFields />
-    <SignInFlow bind:action />
+        <ProductionDetail production={$production_info} showing={$show_info} {showFields} />
+        <SignInFlow />
 
-    <div class="logo">
-        <Logo />
-    </div>
+        <div class="logo">
+            <Logo />
+        </div>
+    {:catch err}
+        {err?.message}
+    {/await}
 </div>
 
 <style lang="scss">

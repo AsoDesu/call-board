@@ -1,19 +1,8 @@
 import type { Production, Showing } from "$lib/types/production";
 import { derived, writable, type Writable } from "svelte/store";
 
-export const production_info = writable<Production>({
-    production_id: "production",
-    name: "Production Name",
-    company: "Theatre Company"
-});
-
-export const show_info = writable<Showing>({
-    show_id: "production_2312253",
-    fields: [
-        { type: "location", content: "Venue Name" },
-        { type: "date", content: "23rd December 2025 • 3pm" }
-    ]
-});
+export const production_info = writable<Production>();
+export const show_info = writable<Showing>();
 
 export const production_members = writable<ProductionMember[]>([
     {

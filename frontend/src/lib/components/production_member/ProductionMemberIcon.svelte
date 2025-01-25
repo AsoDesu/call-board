@@ -1,20 +1,21 @@
 <script lang="ts">
+    import { Icons } from "$lib/icons";
     import Icon from "@iconify/svelte";
 
     export let member: ProductionMember;
 
     let icons = {
-        crew: "material-symbols:engineering-outline-rounded",
+        crew: Icons.engineering,
 
-        $else: "material-symbols:person-outline-rounded"
+        $else: Icons.person
     } as { [key: string]: string };
 </script>
 
 {#if member.icon}
     <div class="icon icon-img" style={`background-image: url("${member.icon}")`}></div>
 {:else}
-    <div class="icon">
-        <Icon icon={icons[member.department.toLowerCase()] ?? icons.$else} height={48} />
+    <div class="icon icon-svg">
+        <Icon icon={icons[member.department.toLowerCase()] ?? icons.$else} height="100%" />
     </div>
 {/if}
 

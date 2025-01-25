@@ -9,6 +9,7 @@
     import { department_selected, selected_member } from "$lib/state/flow_state";
     import { production_departments, production_members } from "$lib/state/production_state";
     import { previous_show_sign_in } from "$lib/state/sign_in_state";
+    import { Icons } from "$lib/icons";
 
     let { search = $bindable(""), advanceFlow, ...props } = $props();
 
@@ -61,7 +62,7 @@
 
         <Textfield variant="outlined" bind:value={search} label="Search" class="search">
             {#snippet leadingIcon()}
-                <TextIcon><Icon icon="material-symbols:search" height={25} /></TextIcon>
+                <TextIcon><Icon icon={Icons.search} height={25} /></TextIcon>
             {/snippet}
         </Textfield>
     </div>

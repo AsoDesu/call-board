@@ -5,24 +5,21 @@
     import SignInButtonItem from "./SignInButtonItem.svelte";
     import SelectDepartmentItem from "./SelectDepartmentItem.svelte";
     import SelectUserItem from "./select_users/SelectMemberItem.svelte";
-    import { selected_member } from "$lib/state/flow_state";
+    import { flow, flow_action, selected_member } from "$lib/state/flow_state";
     import { production_info } from "$lib/state/production_state";
     import { api } from "$lib/api/api";
     import { current_show_sign_in } from "$lib/state/sign_in_state";
     import LoadingFlowItem from "./LoadingFlowItem.svelte";
     import SignedInFlowItem from "./signed_in/SignedInFlowItem.svelte";
 
-    let flow = ["signin", "select_department", "select_human"];
-    export let action = "signin";
-
     let loading = false;
 
     function advanceFlow() {
-        let i = flow.indexOf(action) + 1;
+        let i = flow.indexOf($flow_action) + 1;
         if (i >= flow.length) {
             finishFlow();
         }
-        action = flow[i];
+        $flow_action = flow[i];
     }
 
     async function finishFlow() {
@@ -33,7 +30,7 @@
         }
 
         await api.signIn($selected_member);
-        action = "signin";
+        $flow_action = "signin";
         loading = false;
     }
 </script>
@@ -43,11 +40,11 @@
         <ActionItem><LoadingFlowItem /></ActionItem>
     {:else if $current_show_sign_in != null}
         <ActionItem><SignedInFlowItem signIn={$current_show_sign_in} /></ActionItem>
-    {:else if action == "signin"}
+    {:else if $flow_action == "signin"}
         <ActionItem><SignInButtonItem {advanceFlow} /></ActionItem>
-    {:else if action == "select_department"}
+    {:else if $flow_action == "select_department"}
         <ActionItem><SelectDepartmentItem {advanceFlow} /></ActionItem>
-    {:else if action == "select_human"}
+    {:else if $flow_action == "select_human"}
         <ActionItem><SelectUserItem {advanceFlow} /></ActionItem>
     {/if}
 </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
     import ProductionMemberDetail from "$lib/components/production_member/ProductionMemberDetail.svelte";
     import ProductionMemberIcon from "$lib/components/production_member/ProductionMemberIcon.svelte";
+    import { Icons } from "$lib/icons";
     import { production_members } from "$lib/state/production_state";
     import type { SignInState } from "$lib/types/sign_in";
     import Icon from "@iconify/svelte";
@@ -19,7 +20,7 @@
 
 <div class="signed-in-container">
     <div class="text">
-        <Icon icon="material-symbols:how-to-reg-outline-rounded" />
+        <Icon icon={Icons.howToReg} />
         <span>You're signed in!</span>
     </div>
 

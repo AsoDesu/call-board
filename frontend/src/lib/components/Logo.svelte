@@ -1,9 +1,10 @@
 <script>
+    import { Icons } from "$lib/icons";
     import Icon from "@iconify/svelte";
 </script>
 
 <div class="logo">
-    <Icon icon="material-symbols:developer-board-outline" width={32} />
+    <Icon icon={Icons.developerBoard} width={32} />
     <span>Call Board</span>
 </div>
 

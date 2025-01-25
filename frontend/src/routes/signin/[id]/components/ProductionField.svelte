@@ -1,15 +1,36 @@
 <script lang="ts">
     import { getIcon, type ProductionField } from "$lib/types/production";
+    import { ordinalSuffix } from "$lib/utils";
     import Icon from "@iconify/svelte";
 
-    export let field: ProductionField;
+    let { field }: { field: ProductionField } = $props();
+
+    let convertedContent = $derived.by(() => {
+        if (field.type == "date") {
+            let date = new Date(+field.content);
+
+            let dateString = date.toLocaleDateString("default", {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            });
+            let timeString = date.toLocaleTimeString("default", {
+                hour12: true,
+                hour: "numeric",
+                minute: "numeric"
+            });
+            return `${dateString} • ${timeString}`;
+        } else {
+            return field.content;
+        }
+    });
 </script>
 
 <div class="field">
     <div class="box icon">
-        <Icon icon="material-symbols:{getIcon(field.type)}"></Icon>
+        <Icon icon={getIcon(field.type)}></Icon>
     </div>
-    <div class="box content">{field.content}</div>
+    <div class="box content">{convertedContent}</div>
 </div>
 
 <style lang="scss">
